@@ -5,9 +5,8 @@ declare(strict_types=1);
 namespace dobron\HighlightLite\Tests\Functional;
 
 use dobron\HighlightLite\Configuration;
-use dobron\HighlightLite\Internal\Search\Highlighter\Highlight;
-
 use dobron\HighlightLite\HighlightFactory;
+use dobron\HighlightLite\Internal\Search\Highlighter\Highlight;
 use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\TestCase;
 
@@ -77,6 +76,12 @@ class HighlightTest extends TestCase
         ];
 
         yield [
+            '🤘 Rammstein concert in Berlin',
+            'rammstein berlin',
+            '🤘 <em>Rammstein</em> concert in <em>Berlin</em>',
+        ];
+
+        yield [
             '2025 résumé templates for creative jobs',
             'résumé 2025 creative jobs',
             '<em>2025 résumé</em> templates for <em>creative jobs</em>',
@@ -121,7 +126,7 @@ class HighlightTest extends TestCase
         yield [
             'Cómo preparar una paella valenciana tradicional',
             'como',
-            '<em>Cómo</em> preparar una paella valenciana tradicional'
+            '<em>Cómo</em> preparar una paella valenciana tradicional',
         ];
 
         yield [
@@ -158,7 +163,7 @@ class HighlightTest extends TestCase
             'Crème brûlée recipe with vanilla crème',
             'creme',
             '<em>Crème</em> brûlée recipe with vanilla <em>crème</em>',
-            [false, true, true]
+            [false, true, true],
         ];
 
         yield [
@@ -236,8 +241,7 @@ class HighlightTest extends TestCase
         ?array $options = null,
         string $highlightStartTag = '<em>',
         string $highlightEndTag = '</em>'
-    ): void
-    {
+    ): void {
         $options ??= [false, false, false];
 
         $configuration = Configuration::create()

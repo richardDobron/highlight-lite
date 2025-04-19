@@ -57,6 +57,7 @@ final class Highlight
 
             while (preg_match($pattern, $normalizedText, $occurrence, PREG_OFFSET_CAPTURE)) {
                 [$wordMatch, $index] = $occurrence[0];
+                $index = mb_strlen(substr($normalizedText, 0, $index));
                 $wordLen = mb_strlen($wordMatch, 'UTF-8');
 
                 $cleanedSlice = implode('', array_slice($normalizedTextArray, $index, $wordLen));
@@ -158,6 +159,7 @@ final class Highlight
          * @var array<int, string> $queryTokens
          */
         $queryTokens = (array)preg_split('/\s+/u', $query);
+
         return array_filter($queryTokens, fn ($term) => mb_strlen($term) > 0);
     }
 }
