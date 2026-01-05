@@ -48,11 +48,26 @@ final class Highlight
             $pattern = '/' . $prefix . $this->diacriticsUtil->generateMatchingPattern($queryToken) . '/iu';
 
             if (! preg_match($pattern, $normalizedText, $occurrence, PREG_OFFSET_CAPTURE)) {
-                if ($this->configuration->getRequireMatchAll()) {
-                    return new HighlightResult($text, []);
-                }
+                if ($this->configuration->getMatchShortcuts()) {
+                    $firstLetter = mb_substr($queryToken, 0, 1);
+                    $shortcutPattern = '/\\b' . preg_quote($firstLetter, '/') . '\\w*\\./iu';
 
-                continue;
+                    if (preg_match($shortcutPattern, $normalizedText, $occurrence, PREG_OFFSET_CAPTURE)) {
+                        $pattern = $shortcutPattern;
+                    } else {
+                        if ($this->configuration->getRequireMatchAll()) {
+                            return new HighlightResult($text, []);
+                        }
+
+                        continue;
+                    }
+                } else {
+                    if ($this->configuration->getRequireMatchAll()) {
+                        return new HighlightResult($text, []);
+                    }
+
+                    continue;
+                }
             }
 
             while (preg_match($pattern, $normalizedText, $occurrence, PREG_OFFSET_CAPTURE)) {

@@ -259,7 +259,8 @@ class HighlightTest extends TestCase
         $configuration = Configuration::create()
             ->setInsideWords($options[0] ?? false)
             ->setFindAllOccurrences($options[1] ?? false)
-            ->setRequireMatchAll($options[2] ?? false);
+            ->setRequireMatchAll($options[2] ?? false)
+            ->setMatchShortcuts($options[3] ?? false);
 
         $highlight = $this->createHighlight($configuration);
 

@@ -45,7 +45,7 @@ You can customize the library with the following methods:
 | `setInsideWords(bool $insideWords)`               | Enables or disables highlighting inside words.                  | `false` |
 | `setFindAllOccurrences(bool $findAllOccurrences)` | Enables or disables finding all occurrences of the search term. | `false` |
 | `setRequireMatchAll(bool $requireMatchAll)`       | Enables or disables requiring all search terms to match.        | `false` |
-
+| `setMatchShortcuts(bool $matchShortcuts)`         | Enables or disables matching shortcuts of the search terms.     | `false` |
 ## 📅 Change Log
 
 Please see [CHANGELOG](CHANGELOG.md) for more information on what has changed recently.

@@ -12,6 +12,8 @@ final class Configuration
     private $findAllOccurrences = false;
     /** @var bool */
     private $requireMatchAll = false;
+    /** @var bool */
+    private $matchShortcuts = false;
 
     public static function create(): self
     {
@@ -50,6 +52,18 @@ final class Configuration
     public function setRequireMatchAll(bool $requireMatchAll): self
     {
         $this->requireMatchAll = $requireMatchAll;
+
+        return $this;
+    }
+
+    public function getMatchShortcuts(): bool
+    {
+        return $this->matchShortcuts;
+    }
+
+    public function setMatchShortcuts(bool $matchShortcuts): self
+    {
+        $this->matchShortcuts = $matchShortcuts;
 
         return $this;
     }
