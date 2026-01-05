@@ -188,6 +188,13 @@ class HighlightTest extends TestCase
         ];
 
         yield [
+            'Exploring Königstrasse and Friedrichstrasse',
+            'straße',
+            'Exploring König<em>strasse</em> and Friedrich<em>strasse</em>',
+            [true, true, true],
+        ];
+
+        yield [
             'Dvořák and Smetana: Czech classical legends',
             'dvorak czech',
             '<em>Dvořák</em> and Smetana: <em>Czech</em> classical legends',

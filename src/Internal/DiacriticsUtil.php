@@ -260,6 +260,7 @@ class DiacriticsUtil
 
     public function generateMatchingPattern(string $input): string
     {
+        $charMap = self::DOUBLE_CHARS;
         $reverseMap = $this->buildReverseMap();
 
         $pattern = '';
@@ -275,6 +276,10 @@ class DiacriticsUtil
                 $alternatives = array_merge([$pair], $reverseMap[$pair]);
                 $pattern .= '(' . implode('|', array_map('preg_quote', $alternatives, ['/'])) . ')';
                 $i += 2;
+            } elseif (isset($charMap[$char])) {
+                $alternatives = [preg_quote($char, '/'), preg_quote($charMap[$char], '/')];
+                $pattern .= '(' . implode('|', $alternatives) . ')';
+                $i++;
             } else {
                 $pattern .= preg_quote($char, '/');
                 $i++;
