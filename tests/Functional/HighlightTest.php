@@ -34,6 +34,20 @@ class HighlightTest extends TestCase
     public static function highlightingProvider(): \Generator
     {
         yield [
+            'J.K. Rowling, new book',
+            'Joanne Kathleen Rowling',
+            '<em>J.K. Rowling</em>, new book',
+            [false, false, false, true],
+        ];
+
+        yield [
+            'Office at 123 W. Main St., CA, USA',
+            'West Main Street CA USA',
+            'Office at 123 <em>W. Main St.</em>, <em>CA</em>, <em>USA</em>',
+            [false, false, false, true],
+        ];
+
+        yield [
             'Résumé writing tips for professionals',
             'resume',
             '<em>Résumé</em> writing tips for professionals',
@@ -242,12 +256,10 @@ class HighlightTest extends TestCase
         string $highlightStartTag = '<em>',
         string $highlightEndTag = '</em>'
     ): void {
-        $options ??= [false, false, false];
-
         $configuration = Configuration::create()
-            ->setInsideWords($options[0])
-            ->setFindAllOccurrences($options[1])
-            ->setRequireMatchAll($options[2]);
+            ->setInsideWords($options[0] ?? false)
+            ->setFindAllOccurrences($options[1] ?? false)
+            ->setRequireMatchAll($options[2] ?? false);
 
         $highlight = $this->createHighlight($configuration);
 

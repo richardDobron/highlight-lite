@@ -27,7 +27,7 @@ use dobron\HighlightLite\HighlightFactory;
 $configuration = Configuration::create()
     ->setInsideWords(true)
     ->setFindAllOccurrences(true)
-    ->setRequireMatchAll(true)
+    ->setRequireMatchAll(true);
 
 $highlightResult = (new HighlightFactory())
     ->create($configuration)

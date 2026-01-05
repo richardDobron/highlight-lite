@@ -96,10 +96,10 @@ final class Highlight
         $spans = $this->extractSpansFromMatches($matches);
 
         foreach (mb_str_split($text, 1, 'UTF-8') as $pos => $char) {
-            if (\in_array($pos, $spans['starts'], true)) {
+            if (in_array($pos, $spans['starts'], true)) {
                 $highlightedText .= $startTag;
             }
-            if (\in_array($pos, $spans['ends'], true)) {
+            if (in_array($pos, $spans['ends'], true)) {
                 $highlightedText .= $endTag;
             }
 
@@ -107,7 +107,7 @@ final class Highlight
         }
 
         // Match at the end of the $text
-        if (\in_array($pos + 1, $spans['ends'], true)) {
+        if (in_array($pos + 1, $spans['ends'], true)) {
             $highlightedText .= $endTag;
         }
 
