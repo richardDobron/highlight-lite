@@ -24,11 +24,13 @@ class HighlightTest extends TestCase
         $configuration = Configuration::create()
             ->setInsideWords(true)
             ->setFindAllOccurrences(true)
-            ->setRequireMatchAll(true);
+            ->setRequireMatchAll(true)
+            ->setMatchShortcuts(true);
 
         $this->assertSame(true, $configuration->getInsideWords());
         $this->assertSame(true, $configuration->getFindAllOccurrences());
         $this->assertSame(true, $configuration->getRequireMatchAll());
+        $this->assertSame(true, $configuration->getMatchShortcuts());
     }
 
     public static function highlightingProvider(): \Generator

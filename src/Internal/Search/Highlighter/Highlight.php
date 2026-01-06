@@ -46,28 +46,24 @@ final class Highlight
             }
 
             $pattern = '/' . $prefix . $this->diacriticsUtil->generateMatchingPattern($queryToken) . '/iu';
+            $matched = preg_match($pattern, $normalizedText, $occurrence, PREG_OFFSET_CAPTURE);
 
-            if (! preg_match($pattern, $normalizedText, $occurrence, PREG_OFFSET_CAPTURE)) {
-                if ($this->configuration->getMatchShortcuts()) {
-                    $firstLetter = mb_substr($queryToken, 0, 1);
-                    $shortcutPattern = '/\\b' . preg_quote($firstLetter, '/') . '\\w*\\./iu';
+            if (! $matched && $this->configuration->getMatchShortcuts()) {
+                $firstLetter = mb_substr($queryToken, 0, 1);
+                $shortcutPattern = '/\\b' . preg_quote($firstLetter, '/') . '\\w*\\./iu';
+                $matched = preg_match($shortcutPattern, $normalizedText, $occurrence, PREG_OFFSET_CAPTURE);
 
-                    if (preg_match($shortcutPattern, $normalizedText, $occurrence, PREG_OFFSET_CAPTURE)) {
-                        $pattern = $shortcutPattern;
-                    } else {
-                        if ($this->configuration->getRequireMatchAll()) {
-                            return new HighlightResult($text, []);
-                        }
-
-                        continue;
-                    }
-                } else {
-                    if ($this->configuration->getRequireMatchAll()) {
-                        return new HighlightResult($text, []);
-                    }
-
-                    continue;
+                if ($matched) {
+                    $pattern = $shortcutPattern;
                 }
+            }
+
+            if (! $matched) {
+                if ($this->configuration->getRequireMatchAll()) {
+                    return new HighlightResult($text, []);
+                }
+
+                continue;
             }
 
             while (preg_match($pattern, $normalizedText, $occurrence, PREG_OFFSET_CAPTURE)) {
@@ -175,6 +171,6 @@ final class Highlight
          */
         $queryTokens = (array)preg_split('/\s+/u', $query);
 
-        return array_filter($queryTokens, fn ($term) => mb_strlen($term) > 0);
+        return array_filter($queryTokens, fn (string $term) => mb_strlen($term) > 0);
     }
 }
